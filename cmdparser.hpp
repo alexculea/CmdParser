@@ -398,6 +398,17 @@ namespace cli {
 			return static_cast<int>(_commands.size());
 		}
 
+		bool is_set(const std::string& argument_name)
+		{
+			for (const auto& cmd : _commands )
+			{
+				if (cmd->name == argument_name)
+					return true;
+			}
+
+			return false;
+		}
+
 		inline const std::string& app_name() const {
 			return _appname;
 		}
