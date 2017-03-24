@@ -248,8 +248,7 @@ namespace cli {
 
 		void enable_help() {
 			set_callback("h", "help", std::function<bool(CallbackArgs&)>([this](CallbackArgs& args){
-				args.output << this->usage();
-				exit(0);
+				args.output << this->usage();			
 				return false;
 			}), "", true);
 		}
@@ -331,6 +330,7 @@ namespace cli {
 				}
 			}
 
+
 			// First, parse dominant arguments since they succeed even if required
 			// arguments are missing.
 			for (auto command : _commands) {
@@ -339,6 +339,12 @@ namespace cli {
 					return false;
 				}
 			}
+
+			if (is_set("-h") || is_set("--help"))
+			{
+				return false;
+			}
+
 
 			// Next, check for any missing arguments.
 			for (auto command : _commands) {
@@ -400,9 +406,9 @@ namespace cli {
 
 		bool is_set(const std::string& argument_name)
 		{
-			for (const auto& cmd : _commands )
+			for (const auto& arg : _arguments )
 			{
-				if (cmd->name == argument_name)
+				if (arg == argument_name)
 					return true;
 			}
 
